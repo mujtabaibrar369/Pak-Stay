@@ -12,10 +12,14 @@ const INITIAL_STATE = {
 
 export const SearchContext = createContext(INITIAL_STATE);
 
-const SearchReducer = (state, action) => {
+const SearchReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case "NEW_SEARCH":
-      return action.payload;
+      return {
+        ...state,
+        dates: action.payload.dates,
+        options: action.payload.options,
+      };
 
     case "RESET_SEARCH":
       return INITIAL_STATE;
@@ -29,8 +33,6 @@ export const SearchContextProvider = ({ children }) => {
 
   // Convert the destination value to lowercase for comparison
   const destinationLowerCase = state.destination?.toLowerCase();
-
-  console.log(destinationLowerCase);
 
   return (
     <SearchContext.Provider

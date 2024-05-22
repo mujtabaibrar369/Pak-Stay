@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import "./login.css";
 
@@ -31,33 +31,42 @@ const Login = () => {
   };
 
   return (
-    <div className="login">
-      <h1>Sign In</h1>
-      <div className="lContainer">
-        <input
-          type="text"
-          placeholder="username"
-          id="username"
-          onChange={handleChange}
-          className="lInput"
-        />
-        <input
-          type="password"
-          placeholder="password"
-          id="password"
-          onChange={handleChange}
-          className="lInput"
-        />
-        <button disabled={loading} onClick={handleClick} className="lButton">
-          Login
-        </button>
-        <div>
-          <p>
-            Don't have an account? <a href="/signup">Sign Up</a> instead
-          </p>
+    <div>
+      <div className="navbar">
+        <div className="navContainer">
+          <Link to="/" style={{ color: "inherit", textDecoration: "none" }}>
+            <span className="logo">Pak Stay</span>
+          </Link>
         </div>
-        {error && <span>{error.message}</span>}
       </div>
+      <div className="login">
+        <h1>Sign In</h1>
+        <div className="lContainer">
+          <input
+            type="text"
+            placeholder="username"
+            id="username"
+            onChange={handleChange}
+            className="lInput"
+          />
+          <input
+            type="password"
+            placeholder="password"
+            id="password"
+            onChange={handleChange}
+            className="lInput"
+          />
+          <button disabled={loading} onClick={handleClick} className="lButton">
+            Login
+          </button>
+          <div>
+            <p>
+              Don't have an account? <a href="/signup">Sign Up</a> instead
+            </p>
+          </div>
+          {error && <span>{error.message}</span>}
+        </div>
+      </div>{" "}
     </div>
   );
 };

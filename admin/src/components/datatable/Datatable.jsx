@@ -65,7 +65,7 @@ const Datatable = ({ columns }) => {
           getRowId={(row) => row._id}
         />
       ) : (
-        "Loading"
+        <div class="loader"></div>
       )}
     </div>
   );

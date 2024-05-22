@@ -45,3 +45,18 @@
   cursor: pointer;
   color: #003580;
 }
+.username,
+.navItems {
+  display: flex;
+  align-items: center;
+}
+
+.username,
+.navItems {
+  display: flex;
+  align-items: center;
+}
+
+.blue-dropdown {
+  margin-left: auto;
+}

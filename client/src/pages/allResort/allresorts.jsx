@@ -23,7 +23,7 @@ const AllResorts = () => {
         <div className="listWrapper">
           <div className="listResult">
             {loading ? (
-              "loading"
+              <div class="loader"></div>
             ) : (
               <>
                 {data.map((item) => (

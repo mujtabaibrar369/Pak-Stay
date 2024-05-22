@@ -4,21 +4,31 @@ import Appartment from "./app.png";
 import Home from "./homes.png";
 import Hotel from "./hotel.png";
 import More from "./more.png";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import { useEffect } from "react";
 
 const NewProperty = () => {
   const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
+
   const gotToNewPage = () => {
     navigate("/addProperty");
   };
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, []);
   return (
     <div className="homecontainer">
       <div className="navbar">
         <div className="navContainer">
-          <Link
-            to="/listnewproperty"
-            style={{ color: "inherit", textDecoration: "none" }}
-          >
+          <Link to="/" style={{ color: "inherit", textDecoration: "none" }}>
             <span className="logo">Pak Stay</span>
+          </Link>
+          <Link style={{ color: "inherit", textDecoration: "none" }}>
+            <span className="listing">View Your Listings</span>
           </Link>
         </div>
       </div>

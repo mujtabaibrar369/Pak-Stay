@@ -16,12 +16,14 @@ import NewRoom from "./pages/newRoom/NewRoom";
 import NewHotel from "./pages/newHotel/NewHotel";
 function App() {
   const { darkMode } = useContext(DarkModeContext);
+  const navigate = useNavigate();
 
   const ProtectedRoute = ({ children }) => {
     const { user } = useContext(AuthContext);
 
     if (!user) {
       return <Navigate to="/login" />;
+      navigate("/login");
     }
 
     return children;

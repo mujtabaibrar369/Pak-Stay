@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import "./nearestProperties.css";
 
 const NearestProperties = () => {
   let latitude, longitude;
-  let cityName = "";
+  const [cityName, setCityName] = useState("");
   const successCallback = (position) => {
     latitude = position.coords.latitude;
     longitude = position.coords.longitude;
@@ -18,17 +18,18 @@ const NearestProperties = () => {
   const locationInfo = useFetch(
     `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
   );
-  if (!locationInfo.loading) {
-    cityName = locationInfo.data.city;
-    console.log(cityName);
-  }
+  useEffect(() => {
+    if (locationInfo) {
+      setCityName(locationInfo.data.city);
+    }
+  }, [locationInfo]);
 
   const { data, loading, error } = useFetch(`/hotels/?city=${cityName}`);
 
   return (
     <div className="fp">
       {loading ? (
-        "Loading"
+        <div class="loader"></div>
       ) : (
         <>
           {data.map((item) => (

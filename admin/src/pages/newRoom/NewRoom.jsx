@@ -72,14 +72,16 @@ const NewRoom = () => {
                   onChange={(e) => setHotelId(e.target.value)}
                 >
                   <option value="defaultOption">Select an option</option>
-                  {loading
-                    ? "loading"
-                    : data &&
-                      data.map((hotel) => (
-                        <option key={hotel._id} value={hotel._id}>
-                          {hotel.name}
-                        </option>
-                      ))}
+                  {loading ? (
+                    <div class="loader"></div>
+                  ) : (
+                    data &&
+                    data.map((hotel) => (
+                      <option key={hotel._id} value={hotel._id}>
+                        {hotel.name}
+                      </option>
+                    ))
+                  )}
                 </select>
               </div>
               <button onClick={handleClick}>Send</button>

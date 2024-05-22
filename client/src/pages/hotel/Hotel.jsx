@@ -1,3 +1,4 @@
+import ReactModal from "react-modal";
 import "./hotel.css";
 import Navbar from "../../components/navbar/Navbar";
 import Header from "../../components/header/Header";
@@ -10,7 +11,7 @@ import {
   faCircleXmark,
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import { useLocation, useNavigate } from "react-router-dom";
 import { SearchContext } from "../../context/SearchContext";
@@ -23,21 +24,24 @@ const Hotel = () => {
   const [slideNumber, setSlideNumber] = useState(0);
   const [open, setOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [dateModalOpen, setDateModalOpen] = useState(false);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   const { data, loading, error } = useFetch(`/hotels/find/${id}`);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
-
-  const { dates, options } = useContext(SearchContext);
-
+  const [days, setDays] = useState(0);
+  const [adults, setAdults] = useState(1);
+  const [children, setChildren] = useState(1);
+  const [rooms, setRooms] = useState(1);
+  const { dispatch, dates, options } = useContext(SearchContext);
   const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
   function dayDifference(date1, date2) {
     const timeDiff = Math.abs(date2.getTime() - date1.getTime());
     const diffDays = Math.ceil(timeDiff / MILLISECONDS_PER_DAY);
     return diffDays;
   }
-
-  const days = dayDifference(dates[0].endDate, dates[0].startDate);
 
   const handleOpen = (i) => {
     setSlideNumber(i);
@@ -63,12 +67,45 @@ const Hotel = () => {
       navigate("/login");
     }
   };
+
+  const handleDateSubmit = (e) => {
+    e.preventDefault();
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const newDates = {
+      startDate: new Date(startDate),
+      endDate: new Date(endDate),
+    };
+
+    const newOptions = {
+      adult: adults,
+      children: children,
+      room: rooms,
+    };
+    console.log(newDates, newOptions);
+    console.log(start, end, dayDifference(start, end));
+    dispatch({
+      type: "NEW_SEARCH",
+      payload: { dates: newDates, options: newOptions },
+    });
+    setDays(dayDifference(start, end));
+    setDateModalOpen(false);
+  };
+
+  useEffect(() => {
+    if (!dates || dates.length === 0) {
+      setDays(0);
+    } else {
+      setDays(dayDifference(dates[0].endDate, dates[0].startDate));
+    }
+  }, []);
+
   return (
     <div>
       <Navbar />
       <Header type="list" />
       {loading ? (
-        "loading"
+        <div class="loader"></div>
       ) : (
         <div className="hotelContainer">
           {open && (
@@ -129,16 +166,26 @@ const Hotel = () => {
                 <p className="hotelDesc">{data.desc}</p>
               </div>
               <div className="hotelDetailsPrice">
-                <h1>Perfect for a {days}-night stay!</h1>
-                <span>
-                  Located in the real heart of Krakow, this property has an
-                  excellent location score of 9.8!
-                </span>
-                <h2>
-                  <b>${days * data.cheapestPrice * options.room}</b> ({days}{" "}
-                  nights)
-                </h2>
-                <button onClick={handleClick}>Reserve or Book Now!</button>
+                {days === 0 ? (
+                  <>
+                    <h1>Perfect for your stay!</h1>
+                    <h2>
+                      <b>Starting from $ {data.cheapestPrice}</b>{" "}
+                    </h2>
+                    <button onClick={() => setDateModalOpen(true)}>
+                      Select Options
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <h1>Perfect for a {days}-night stay!</h1>
+                    <h2>
+                      <b>${days * data.cheapestPrice * options.room}</b> ({days}{" "}
+                      nights)
+                    </h2>
+                    <button onClick={handleClick}>Reserve or Book Now!</button>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -146,7 +193,33 @@ const Hotel = () => {
           <Footer />
         </div>
       )}
-      {openModal && <Reserve setOpen={setOpenModal} hotelId={id}/>}
+      {openModal && <Reserve setOpen={setOpenModal} hotelId={id} />}
+      {dateModalOpen && (
+        <ReactModal isOpen={dateModalOpen} className="dateModal">
+          <h2>Select your dates</h2>
+          <form onSubmit={handleDateSubmit}>
+            <input type="date" onChange={(e) => setStartDate(e.target.value)} />
+            <input type="date" onChange={(e) => setEndDate(e.target.value)} />
+            <input
+              type="number"
+              placeholder="Adults"
+              onChange={(e) => setAdults(e.target.value)}
+            />
+            <input
+              type="number"
+              placeholder="Children"
+              onChange={(e) => setChildren(e.target.value)}
+            />
+            <input
+              type="number"
+              placeholder="Rooms"
+              onChange={(e) => setRooms(e.target.value)}
+            />
+            <button type="submit">Submit</button>
+          </form>
+          <button onClick={() => setDateModalOpen(false)}>Close</button>
+        </ReactModal>
+      )}
     </div>
   );
 };

@@ -44,7 +44,11 @@ const Navbar = () => {
             >
               <span className="listing">List your property</span>
             </Link>
-            <Dropdown title={userlogedIn} icon={<CiUser />}>
+            <Dropdown
+              title={userlogedIn}
+              icon={<CiUser />}
+              style={{ backgroundColor: "blue" }}
+            >
               <Dropdown.Item icon={<CgProfile />}>User Profile</Dropdown.Item>
               <Dropdown.Item icon={<MdDashboard />}>Dashboard</Dropdown.Item>
               <Dropdown.Item icon={<MdLogout />} onClick={() => Logout()}>

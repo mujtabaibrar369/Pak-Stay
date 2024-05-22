@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import "./searchItem.css";
 import Geocode from "react-geocode";
-
+import { useContext } from "react";
+import { SearchContext } from "../../context/SearchContext";
 const SearchItem = ({ item }) => {
   console.log(item);
+  const { dates, options } = useContext(SearchContext);
   return (
     <div className="searchItem">
       <img src={item.photos[0]} alt="" className="siImg" />

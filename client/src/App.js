@@ -9,6 +9,7 @@ import NewProperty from "./pages/listnewproperty/newProperty";
 import { ToastContainer } from "react-toastify";
 import Navbar from "./components/navbar/Navbar";
 import NewHotel from "./pages/addListing/NewHotel";
+import "./App.css";
 function App() {
   return (
     <div>
