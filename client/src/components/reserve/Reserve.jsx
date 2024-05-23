@@ -3,24 +3,24 @@ import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 
 import "./reserve.css";
 import useFetch from "../../hooks/useFetch";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SearchContext } from "../../context/SearchContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 
 const Reserve = ({ setOpen, hotelId }) => {
   const [selectedRooms, setSelectedRooms] = useState([]);
   const { data, loading, error } = useFetch(`/hotels/room/${hotelId}`);
-  console.log(data);
   const { dates } = useContext(SearchContext);
+  const { user } = useContext(AuthContext);
 
   const getDatesInRange = (startDate, endDate) => {
+    const dates = []; // Initialize dates array here
     const start = new Date(startDate);
     const end = new Date(endDate);
 
     const date = new Date(start.getTime());
-
-    const dates = [];
 
     while (date <= end) {
       dates.push(new Date(date).getTime());
@@ -30,7 +30,7 @@ const Reserve = ({ setOpen, hotelId }) => {
     return dates;
   };
 
-  const alldates = getDatesInRange(dates[0].startDate, dates[0].endDate);
+  const alldates = getDatesInRange(dates.startDate, dates.endDate);
 
   const isAvailable = (roomNumber) => {
     const isFound = roomNumber.unavailableDates.some((date) =>
@@ -53,15 +53,26 @@ const Reserve = ({ setOpen, hotelId }) => {
   const navigate = useNavigate();
 
   const handleClick = async () => {
+    console.log(alldates);
     try {
+      console.log(selectedRooms);
+      const bookingData = {
+        hotel: hotelId,
+        user: user._id, // assuming the userId is stored in the SearchContext
+        checkInDate: dates[0].startDate,
+        checkOutDate: dates[0].endDate,
+        room: selectedRooms, // the ids of the selected rooms
+      };
       await Promise.all(
         selectedRooms.map((roomId) => {
           const res = axios.put(`/rooms/availability/${roomId}`, {
-            dates: alldates,
+            dates: [...new Set(alldates.map((date) => new Date(date)))],
           });
           return res.data;
         })
       );
+      const res = await axios.post("/booking/createbookings", bookingData);
+      console.log(res);
       setOpen(false);
       navigate("/");
     } catch (err) {}
