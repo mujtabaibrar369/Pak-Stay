@@ -8,10 +8,14 @@ import roomsRoute from "./routes/rooms.js";
 import bookingRoute from "./routes/booking.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import axios from "axios";
+import OpenAI from "openai";
 
 const app = express();
+app.use(express.json());
 
 dotenv.config();
+const openai = new OpenAI();
 
 const connect = async () => {
   try {
@@ -46,6 +50,20 @@ app.use((err, req, res, next) => {
     message: errorMessage,
     stack: err.stack,
   });
+});
+app.post("/api/chat", async (req, res) => {
+  try {
+    const prompt = req.body.message;
+    const completion = await openai.completions.create({
+      model: "gpt-3.5-turbo-instruct",
+      prompt: prompt,
+    });
+    console.log(completion.choices[0].message.content);
+    res.json("ok");
+  } catch (err) {
+    console.error(`Error: ${err}`);
+    res.send(err);
+  }
 });
 
 app.listen(8800, () => {

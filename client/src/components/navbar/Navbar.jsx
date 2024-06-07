@@ -33,17 +33,11 @@ const Navbar = () => {
     <div className="navbar">
       <div className="navContainer">
         <Link to="/" style={{ color: "inherit", textDecoration: "none" }}>
-          <span className="logo">Pak Stay</span>
+          <span className="logo">Swift Stay</span>
         </Link>
 
         {user ? (
           <div className="username">
-            <Link
-              to="/listnewproperty"
-              style={{ color: "inherit", textDecoration: "none" }}
-            >
-              <span className="listing">List your property</span>
-            </Link>
             <Dropdown
               title={userlogedIn}
               icon={<CiUser />}

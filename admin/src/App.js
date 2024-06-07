@@ -17,7 +17,6 @@ import NewHotel from "./pages/newHotel/NewHotel";
 function App() {
   const { darkMode } = useContext(DarkModeContext);
   const { user } = useContext(AuthContext);
-  if (!user) return <Navigate to="/login" />;
   const ProtectedRoute = ({ children }) => {
     return children;
   };

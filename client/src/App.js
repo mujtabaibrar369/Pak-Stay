@@ -9,6 +9,7 @@ import NewProperty from "./pages/listnewproperty/newProperty";
 import { ToastContainer } from "react-toastify";
 import Navbar from "./components/navbar/Navbar";
 import NewHotel from "./pages/addListing/NewHotel";
+import Chat from "./components/chat/Chat";
 import "./App.css";
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         </Routes>
       </BrowserRouter>
       <ToastContainer />
+      <Chat />
     </div>
   );
 }

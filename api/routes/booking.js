@@ -5,19 +5,22 @@ import {
   deleteBooking,
   getBooking,
   updateBooking,
+  countAllBookings,
+  getAllBookings,
 } from "../controllers/booking.js";
 
 // Create a new booking
 router.post("/createbookings", createBooking);
-// router.get("/bookings/count", countAllBookings); // Add this line
+router.get("/countBookings", countAllBookings); // Add this line
+router.get("/getAllBookings", getAllBookings);
 
 // Get a booking by ID
-router.get("/bookings/:id", getBooking);
+router.get("/:id", getBooking);
 
 // Update a booking
-router.put("/bookings/:id", updateBooking);
+router.post("/:id", updateBooking);
 
 // Delete a booking
-router.delete("/bookings/:id", deleteBooking);
+router.delete("/:id", deleteBooking);
 
 export default router;

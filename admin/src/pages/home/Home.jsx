@@ -7,22 +7,34 @@ import Chart from "../../components/chart/Chart";
 import Table from "../../components/table/Table";
 import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
+
 const Home = () => {
   const [user, setUser] = useState(null);
-  const { data, loading } = useFetch("/users/countUsers");
+  const [bookings, setBookings] = useState(null); // Add this line
+  const { data: userData, loading: userLoading } =
+    useFetch("/users/countUsers");
+  const { data: bookingsData, loading: bookingsLoading } = useFetch(
+    "/booking/countBookings"
+  ); // Add this line
+
   useEffect(() => {
-    if (!loading) {
-      setUser(data);
+    if (!userLoading) {
+      setUser(userData);
     }
-  });
+    if (!bookingsLoading) {
+      // Add this block
+      setBookings(bookingsData);
+    }
+  }, [userLoading, bookingsLoading, userData, bookingsData]);
+
   return (
     <div className="home">
       <Sidebar />
       <div className="homeContainer">
         <Navbar />
         <div className="widgets">
-          <Widget type="user" count={data} />
-          <Widget type="order" />
+          <Widget type="user" count={userData} />
+          <Widget type="bookings" count={bookingsData} /> {/* Add this line */}
           <Widget type="earning" />
           <Widget type="balance" />
         </div>

@@ -6,8 +6,9 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
 
 const Widget = ({ type, count }) => {
-  let data;
+  let data = {};
   const amount = count || 100;
+
   const diff = 20;
 
   switch (type) {
@@ -27,11 +28,11 @@ const Widget = ({ type, count }) => {
         ),
       };
       break;
-    case "order":
+    case "bookings":
       data = {
-        title: "ORDERS",
+        title: "BOOKINGS",
         isMoney: false,
-        link: "View all orders",
+        link: "View all bookings",
         icon: (
           <ShoppingCartOutlinedIcon
             className="icon"

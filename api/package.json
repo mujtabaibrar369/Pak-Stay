@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.7.2",
     "bcryptjs": "^2.4.3",
     "concurrently": "^8.2.2",
     "cookie-parser": "^1.4.6",
@@ -20,6 +21,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongodb-autoincrement": "^1.0.1",
     "mongoose": "^6.3.1",
-    "nodemon": "^2.0.16"
+    "nodemon": "^2.0.16",
+    "openai": "^4.47.3"
   }
 }

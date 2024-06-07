@@ -1,3 +1,5 @@
+import { useState } from "react";
+import Chat from "../../components/chat/Chat";
 import Featured from "../../components/featured/Featured";
 import FeaturedProperties from "../../components/featuredProperties/FeaturedProperties";
 import Footer from "../../components/footer/Footer";
@@ -9,6 +11,12 @@ import PropertyList from "../../components/propertyList/PropertyList";
 import "./home.css";
 
 const Home = () => {
+  const [isChatOpen, setIsChatOpen] = useState(false);
+
+  const toggleChat = () => {
+    setIsChatOpen(!isChatOpen);
+  };
+
   return (
     <div>
       <Navbar />
@@ -18,7 +26,6 @@ const Home = () => {
         <h1 className="homeTitle">Browse by property type</h1>
         <PropertyList />
         <h1 className="homeTitle">Properties near you</h1>
-
         <NearestProperties />
         <h1 className="homeTitle">Homes guests love</h1>
         <FeaturedProperties />

@@ -3,11 +3,12 @@ import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 
 import "./reserve.css";
 import useFetch from "../../hooks/useFetch";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { SearchContext } from "../../context/SearchContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import { toast } from "react-toastify";
 
 const Reserve = ({ setOpen, hotelId }) => {
   const [selectedRooms, setSelectedRooms] = useState([]);
@@ -16,7 +17,7 @@ const Reserve = ({ setOpen, hotelId }) => {
   const { user } = useContext(AuthContext);
 
   const getDatesInRange = (startDate, endDate) => {
-    const dates = []; // Initialize dates array here
+    const dates = [];
     const start = new Date(startDate);
     const end = new Date(endDate);
 
@@ -53,29 +54,33 @@ const Reserve = ({ setOpen, hotelId }) => {
   const navigate = useNavigate();
 
   const handleClick = async () => {
-    console.log(alldates);
     try {
-      console.log(selectedRooms);
       const bookingData = {
         hotel: hotelId,
         user: user._id, // assuming the userId is stored in the SearchContext
         checkInDate: dates[0].startDate,
         checkOutDate: dates[0].endDate,
-        room: selectedRooms, // the ids of the selected rooms
+        rooms: selectedRooms, // the ids of the selected rooms
       };
       await Promise.all(
-        selectedRooms.map((roomId) => {
-          const res = axios.put(`/rooms/availability/${roomId}`, {
-            dates: [...new Set(alldates.map((date) => new Date(date)))],
+        selectedRooms.map(async (roomId) => {
+          const res = await axios.put(`/rooms/availability/${roomId}`, {
+            dates: alldates,
           });
+          console.log(res);
           return res.data;
         })
       );
       const res = await axios.post("/booking/createbookings", bookingData);
-      console.log(res);
+      if (res) {
+        console.log(res);
+        toast.success("Booking successful!");
+      }
       setOpen(false);
       navigate("/");
-    } catch (err) {}
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <div className="reserve">

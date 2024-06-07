@@ -1,16 +1,17 @@
 import "./newHotel.scss";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { useState } from "react";
+import { useState, useNavigate } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useFetch from "../../hooks/useFetch";
 import { hotelInputs } from "../../formSource";
 const NewHotel = () => {
+  //const navigate = useNavigate();
+
   const [files, setFiles] = useState("");
   const [info, setInfo] = useState({});
   const [rooms, setRooms] = useState([]);
-
   const { data, loading, error } = useFetch("/rooms");
   const wait = (n) => new Promise((resolve) => setTimeout(resolve, n));
 
@@ -53,7 +54,7 @@ const NewHotel = () => {
       if (res) {
         toast.success("Hotel added successfully");
         await wait(3000);
-        window.location.href = "/hotels";
+        // navigate("/hotels");
       }
     } catch (err) {
       console.log(err);

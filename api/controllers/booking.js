@@ -50,7 +50,16 @@ export const deleteBooking = async (req, res) => {
 export const countAllBookings = async (req, res) => {
   try {
     const count = await Booking.countDocuments({});
-    res.status(200).json({ count });
+    res.status(200).json(count);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+// Get all bookings
+export const getAllBookings = async (req, res) => {
+  try {
+    const bookings = await Booking.find({});
+    res.status(200).json(bookings);
   } catch (err) {
     res.status(500).json(err);
   }
