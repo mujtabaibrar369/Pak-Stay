@@ -1,14 +1,39 @@
+import React, { useState } from "react";
 import "./carList.css";
 import Navbar from "../../components/navbar/Navbar";
 import Header from "../../components/header/Header";
 import useFetch from "../../hooks/useFetch";
+import axios from "axios";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const CarList = () => {
   const { data, loading, error, reFetch } = useFetch(`/cars`);
-  console.log(data);
+  const [isBooking, setIsBooking] = useState(false);
+  const [bookingCar, setBookingCar] = useState(null);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
 
-  const handleClick = () => {
-    reFetch();
+  const handleBookClick = (car) => {
+    setBookingCar(car);
+    setIsBooking(true);
+  };
+
+  const handleBookingSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("/rentals/rent", {
+        carId: bookingCar._id,
+        userId: "66abb61a1546c119e6a78c34", // Replace with actual user ID
+        start_date: startDate,
+        end_date: endDate
+      });
+      console.log(response.data);
+      setIsBooking(false);
+      reFetch();
+    } catch (error) {
+      console.error("Error booking car", error);
+    }
   };
 
   return (
@@ -30,10 +55,11 @@ const CarList = () => {
                       className="carImg"
                     />
                     <div className="carDetails">
-                      <h1 className="carTitle">{car.model}</h1>
-                      <span className="carBrand">{car.make}</span>
-                      <span className="carFeatures">{car.year}</span>
-                      <span className="carPrice">${car.price_per_day}</span>
+                      <h1 className="carTitle">{car.model}</h1><br></br>
+                      <span className="carBrand">{car.make}</span><br></br>
+                      <span className="carFeatures">{car.year}</span><br></br>
+                      <span className="carPrice">${car.price_per_day}</span><br></br>
+                      <button onClick={() => handleBookClick(car)}>Book Now</button>
                     </div>
                   </div>
                 ))}
@@ -42,6 +68,24 @@ const CarList = () => {
           </div>
         </div>
       </div>
+
+      {isBooking && (
+        <div className="bookingModal">
+          <form className="bookingForm" onSubmit={handleBookingSubmit}>
+            <h2>Book {bookingCar.model}</h2>
+            <label>
+              Start Date:
+              <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
+            </label>
+            <label>
+              End Date:
+              <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} />
+            </label>
+            <button type="submit">Confirm Booking</button>
+            <button onClick={() => setIsBooking(false)}>Cancel</button>
+          </form>
+        </div>
+      )}
     </div>
   );
 };

@@ -51,29 +51,12 @@ const Sidebar = () => {
               <span>Rooms</span>
             </li>
           </Link>
-
-          <p className="title">USEFUL</p>
+          <Link to='/cars' style={{textDecoration: "none"}}>
           <li>
             <InsertChartIcon className="icon" />
-            <span>Stats</span>
+            <span>Cars</span>
           </li>
-          <li>
-            <NotificationsNoneIcon className="icon" />
-            <span>Notifications</span>
-          </li>
-          <p className="title">SERVICE</p>
-          <li>
-            <SettingsSystemDaydreamOutlinedIcon className="icon" />
-            <span>System Health</span>
-          </li>
-          <li>
-            <PsychologyOutlinedIcon className="icon" />
-            <span>Logs</span>
-          </li>
-          <li>
-            <SettingsApplicationsIcon className="icon" />
-            <span>Settings</span>
-          </li>
+          </Link>
           <p className="title">USER</p>
           <li>
             <AccountCircleOutlinedIcon className="icon" />

@@ -8,6 +8,6 @@ const carSchema = new Schema({
   price_per_day: { type: Number, required: true },
   availability_status: { type: Boolean, default: true },
   description: { type: String },
-  image_url: { type: String }
+photos: { type: [String] },
 });
 export default mongoose.model('Car', carSchema);

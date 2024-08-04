@@ -11,7 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/AuthContext";
-import { hotelColumns, roomColumns, userColumns } from "./datatablesource";
+import { carColumns, hotelColumns, roomColumns, userColumns } from "./datatablesource";
 import NewRoom from "./pages/newRoom/NewRoom";
 import NewHotel from "./pages/newHotel/NewHotel";
 import NewCar from "./pages/newCar/NewCar";
@@ -121,7 +121,7 @@ function App() {
                 index
                 element={
                   <ProtectedRoute>
-                    <List columns={roomColumns} />
+                    <List columns={carColumns} />
                   </ProtectedRoute>
                 }
               />

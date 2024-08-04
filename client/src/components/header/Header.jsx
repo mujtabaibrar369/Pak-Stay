@@ -65,24 +65,11 @@ const Header = ({ type }) => {
             <FontAwesomeIcon icon={faBed} />
             <span>Stays</span>
           </div>
-          <div className="headerListItem">
-            <FontAwesomeIcon icon={faPlane} />
-            <span>Flights</span>
-          </div>
-          <div className="headerListItem">
+          <div className="headerListItem active">
             <FontAwesomeIcon icon={faCar} />
-            <Link to="/cars">
-
+            <Link to="/cars" style={{ textDecoration: "none" }}>
             <span>Car rentals</span>
             </Link>
-          </div>
-          <div className="headerListItem">
-            <FontAwesomeIcon icon={faBed} />
-            <span>Attractions</span>
-          </div>
-          <div className="headerListItem">
-            <FontAwesomeIcon icon={faTaxi} />
-            <span>Airport taxis</span>
           </div>
         </div>
         {type !== "list" && (

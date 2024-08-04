@@ -3,9 +3,9 @@ const router = express.Router();
 import Car from '../models/Car.js';
 // Add a new car (Admin)
 router.post('/add', async (req, res) => {
-  const { make, model, year, price_per_day, description, image_url } = req.body;
+  const { make, model, year, price_per_day, description, photos } = req.body;
   try {
-    const newCar = new Car({ make, model, year, price_per_day, description, image_url });
+    const newCar = new Car({ make, model, year, price_per_day, description, photos });
     await newCar.save();
     res.status(201).json(newCar);
   } catch (error) {

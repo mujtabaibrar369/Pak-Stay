@@ -35,8 +35,6 @@ const Home = () => {
         <div className="widgets">
           <Widget type="user" count={userData} />
           <Widget type="bookings" count={bookingsData} /> {/* Add this line */}
-          <Widget type="earning" />
-          <Widget type="balance" />
         </div>
         <div className="charts">
           <Featured />
