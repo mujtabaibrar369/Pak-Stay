@@ -9,6 +9,7 @@ import Navbar from "../../components/navbar/Navbar";
 import NearestProperties from "../../components/nearestProperties/nearestProperties";
 import PropertyList from "../../components/propertyList/PropertyList";
 import "./home.css";
+import WeatherWidget from "../../components/weather/WeatherWidget";
 
 const Home = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -29,6 +30,8 @@ const Home = () => {
         <NearestProperties />
         <h1 className="homeTitle">Homes guests love</h1>
         <FeaturedProperties />
+        <div className="floatingWeatherWidget">
+        <WeatherWidget /></div>
         <MailList />
         <Footer />
       </div>

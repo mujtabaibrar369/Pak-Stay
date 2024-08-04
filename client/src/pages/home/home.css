@@ -47,3 +47,9 @@
     font-size: 16px;
   }
 }
+.floatingWeatherWidget {
+  position: fixed;
+  bottom: 9%; /* Adjust as needed */
+  right: 20px; /* Adjust as needed */
+  z-index: 1000; /* Ensure it floats above other content */
+}

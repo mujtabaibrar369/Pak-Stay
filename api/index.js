@@ -9,13 +9,12 @@ import bookingRoute from "./routes/booking.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import axios from "axios";
-import OpenAI from "openai";
-
+import carRoutes from './routes/carRoutes.js';
+import rentalRoutes from './routes/rentalRoutes.js';
 const app = express();
 app.use(express.json());
 
 dotenv.config();
-const openai = new OpenAI();
 
 const connect = async () => {
   try {
@@ -41,6 +40,8 @@ app.use("/api/users", usersRoute);
 app.use("/api/hotels", hotelsRoute);
 app.use("/api/rooms", roomsRoute);
 app.use("/api/booking", bookingRoute);
+app.use('/api/cars', carRoutes);
+app.use('/api/rentals', rentalRoutes);
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;
   const errorMessage = err.message || "Something went wrong!";
@@ -51,21 +52,6 @@ app.use((err, req, res, next) => {
     stack: err.stack,
   });
 });
-app.post("/api/chat", async (req, res) => {
-  try {
-    const prompt = req.body.message;
-    const completion = await openai.completions.create({
-      model: "gpt-3.5-turbo-instruct",
-      prompt: prompt,
-    });
-    console.log(completion.choices[0].message.content);
-    res.json("ok");
-  } catch (err) {
-    console.error(`Error: ${err}`);
-    res.send(err);
-  }
-});
-
 app.listen(8800, () => {
   connect();
   console.log("Connected to backend.");

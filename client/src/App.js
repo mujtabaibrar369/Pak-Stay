@@ -10,6 +10,7 @@ import { ToastContainer } from "react-toastify";
 import Navbar from "./components/navbar/Navbar";
 import NewHotel from "./pages/addListing/NewHotel";
 import Chat from "./components/chat/Chat";
+import  CarList  from "./pages/car/CarList.jsx";
 import "./App.css";
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/resortsproperties" element={<AllResorts />} />
           <Route path="/listnewproperty" element={<NewProperty />} />
           <Route path="/addproperty" element={<NewHotel />}></Route>
+          <Route path="/cars" element={<CarList/>}></Route>
         </Routes>
       </BrowserRouter>
       <ToastContainer />

@@ -14,11 +14,14 @@ import { AuthContext } from "./context/AuthContext";
 import { hotelColumns, roomColumns, userColumns } from "./datatablesource";
 import NewRoom from "./pages/newRoom/NewRoom";
 import NewHotel from "./pages/newHotel/NewHotel";
+import NewCar from "./pages/newCar/NewCar";
+
 function App() {
   const { darkMode } = useContext(DarkModeContext);
   const { user } = useContext(AuthContext);
+  
   const ProtectedRoute = ({ children }) => {
-    return children;
+    return user ? children : <Navigate to="/login" />;
   };
 
   return (
@@ -109,6 +112,32 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <NewRoom />
+                  </ProtectedRoute>
+                }
+              />
+            </Route>
+            <Route path="cars">
+              <Route
+                index
+                element={
+                  <ProtectedRoute>
+                    <List columns={roomColumns} />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path=":carId"
+                element={
+                  <ProtectedRoute>
+                    <Single />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="new"
+                element={
+                  <ProtectedRoute>
+                    <NewCar />
                   </ProtectedRoute>
                 }
               />
